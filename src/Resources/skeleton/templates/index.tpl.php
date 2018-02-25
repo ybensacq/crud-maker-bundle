@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <h1><?= $entity_class_name; ?> index</h1>
+    <h1>Test<?= $entity_class_name; ?> index</h1>
     <table>
         <thead>
             <tr>
