@@ -20,7 +20,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Liste des <?= $entity_class_name; ?></h3>
-                        <a class="btn btn-primary btn-sm" href="{{ path('<?= $route_name; ?>_new') }}">Nouveau</a>
+                        <a class="btn btn-primary btn-sm pull-right" href="{{ path('<?= $route_name; ?>_new') }}">Nouveau</a>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
