@@ -60,7 +60,7 @@
 
 {% endblock %}
 
-{% block javascript %}
+{% block javascripts %}
     {{ parent() }}
     <script>
         $(function () {
