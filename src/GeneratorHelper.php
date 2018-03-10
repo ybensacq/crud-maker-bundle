@@ -39,7 +39,7 @@ class GeneratorHelper
     {
         if ($baseLayoutExists) {
             $code = <<<TWIG
-{% extends 'base.html.twig' %}
+{% extends 'base_back.html.twig' %}
 
 {% block title %}$title{% endblock %}
 

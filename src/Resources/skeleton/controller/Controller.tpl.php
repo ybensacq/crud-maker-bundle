@@ -15,6 +15,43 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class <?= $class_name ?> extends Controller
 {
+
+    /**
+     * @Route("/paginate", name="paginate")
+     */
+    public function paginateAction(Request $request)
+    {
+        $length = $request->get('length');
+        $length = $length && ($length!=-1)?$length:0;
+
+        $start = $request->get('start');
+        $start = $length?($start && ($start!=-1)?$start:0)/$length:0;
+
+        $search = $request->get('search');
+        $filters = [
+        'query' => $search['value']
+        ];
+
+        $em = $this->getDoctrine();
+        $items = $em->getRepository(<?= $entity_class_name; ?>::class)->paginate($filters , $start, $length);
+
+        $output = array(
+            'data' => array(),
+            'recordsFiltered' => count($em->getRepository(<?= $entity_class_name; ?>::class)->paginate($filters , 0, null)),
+            'recordsTotal' => count($em->getRepository(<?= $entity_class_name; ?>::class)->paginate(null , 0, null))
+        );
+
+        /** @var Ficheclient $item */
+        foreach ($items as $item) {
+            $output['data'][] = [
+                /* Complete the code here... whats fields you want to return */
+
+            ];
+        }
+
+        return new Response(json_encode($output), 200, ['Content-Type' => 'application/json']);
+    }
+
     /**
      * @Route("/", name="index")
      *

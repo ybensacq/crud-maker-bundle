@@ -1,30 +1,22 @@
 <?= $helper->getHead($base_layout_exists, $entity_class_name.' index'); ?>
 
-{% block body %}
+
+{% block stylesheets %}
+    <link href="{{ asset('build/<?= $entity_class_name; ?>.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            <?= $entity_class_name; ?>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> <?= $entity_class_name; ?></a></li>
-        </ol>
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Liste des <?= $entity_class_name; ?></h3>
-                        <a class="btn btn-primary btn-sm pull-right" href="{{ path('<?= $route_name; ?>_new') }}">Nouveau</a>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <table id="datatable" class="table table-bordered table-striped">
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div class="page-content__header">
+                <div>
+                    <h2 class="page-content__header-heading">Lieste des Structures <?= $entity_class_name; ?></h2>
+                </div>
+            </div>
+            <div class="m-datatable">
+                <table id="datatable" data-url="{{ path('<?= $entity_class_name; ?>_paginate') }}" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <?php foreach ($entity_fields as $field): ?><th><?= ucfirst($field['fieldName']); ?></th>
@@ -51,22 +43,36 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                    </div>
-                </div>
             </div>
         </div>
-    </section>
+    </div>
 </div>
 
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
+    <script src="{{ asset('build/<?= $entity_class_name; ?>.js') }}"></script>
+    <!-- copy this code into the previous js file -->
     <script>
-        $(function () {
+        $(document).ready(function() {
+
+            var $url = $("#datatable").data('url');
             $("#datatable").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "sAjaxDataProp": "data",
+                ajax: {
+                    url: $url,
+                    type: 'POST'
+                },
+                "columns": [
+                    <?php foreach ($entity_fields as $field): ?>
+                    {data: "<?= $field['fieldName']; ?>"},
+                    {data: "actions"}
+                    <?php endforeach; ?>
+                ],
                 "language": {
-                    "lengthMenu": "Afficher _MENU_ éléments par page",
+                    "lengthMenu": "_MENU_ éléments par page",
                     "zeroRecords": "Aucun élément trouvé",
                     "info": "Voir page _PAGE_ sur _PAGES_",
                     "infoEmpty": "Aucun élément trouvé",
@@ -82,5 +88,5 @@
             });
         });
     </script>
-
+    <!-- -->
 {% endblock %}
