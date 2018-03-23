@@ -1,37 +1,26 @@
 <?= $helper->getHead($base_layout_exists, 'Edition '.$entity_class_name); ?>
 
-{% block body %}
 
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            <?= $entity_class_name; ?>
-            <small>Edition <?= $entity_class_name; ?></small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> <?= $entity_class_name; ?></a></li>
-            <li class="active">Edition <?= $entity_class_name; ?></li>
-        </ol>
-    </section>
+{% block stylesheets %}
+    <link href="{{ asset('build/<?= strtolower($entity_class_name); ?>.css') }}" rel="stylesheet">
+{% endblock %}
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Edition d'un <?= $entity_class_name; ?></h3>
-                    </div>
 
-                    <div class="box-body">
-                        {% include '<?= $route_name; ?>/_form.html.twig' with {'form': form, 'button_label': 'Edit'} only %}
-                        {% include '<?= $route_name; ?>/_delete_form.html.twig' with {'identifier': <?= $entity_var_singular; ?>.<?= $entity_identifier; ?>} only %}
-                    </div>
-                </div>
+{% block content %}
+
+    <div class="container-fluid">
+        <!-- Content Header (Page header) -->
+        <h2 class="page-content__header-heading"><?= $entity_class_name; ?></h2>
+
+        <!-- Main content -->
+        <div class="main-container">
+            <h3>Edition d'une <?= strtolower($entity_class_name); ?></h3>
+            <div class="row-fluid">
+                {% include '<?= $route_name; ?>/_form.html.twig' with {'form': form, 'button_label': 'Edit'} only %}
+                {% include '<?= $route_name; ?>/_delete_form.html.twig' with {'identifier': <?= $entity_var_singular; ?>.<?= $entity_identifier; ?>} only %}
+                <div class="clear"></div>
             </div>
         </div>
-    </section>
-</div>
+    </div>
 
 {% endblock %}
